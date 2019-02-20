@@ -6,29 +6,16 @@
   <groupId>com.googlecode.narlibs</groupId>
   <artifactId>gtest</artifactId>
   <packaging>nar</packaging>
-  <version>1.7.0</version>
+  <version>1.7.1</version>
 
   <description>Google Test NAR packaging</description>
   
-  <distributionManagement>
-    <repository>
-      <id>CERN</id>
-      <name>CERN Repository</name>
-      <url>https://repository.cern.ch/nexus/content/repositories/enice-releases</url>
-    </repository>
-    <snapshotRepository>
-      <id>CERN Snapshot Repository</id>
-      <name>CERN Snapshot Repository</name>
-      <url>https://repository.cern.ch/nexus/content/repositories/enice-snapshots</url>
-    </snapshotRepository>
-  </distributionManagement>
-    
   <build>
     <plugins>
       <plugin>
-	<groupId>org.apache.maven.plugins</groupId>
-	<artifactId>maven-nar-plugin</artifactId>
-	<version>2.1-enice</version>
+	<groupId>com.github.maven-nar</groupId>
+	<artifactId>nar-maven-plugin</artifactId>
+	<version>3.6.0</version>
 	<extensions>true</extensions>
 	<configuration>
 	    <libraries>
