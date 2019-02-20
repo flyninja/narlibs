@@ -6,7 +6,7 @@
   <groupId>com.googlecode.narlibs</groupId>
   <artifactId>rapidjson-nar</artifactId>
   <packaging>nar</packaging>
-  <version>0.12</version>
+  <version>0.11</version>
 
   <description>Rapidjson NAR packaging</description>
   

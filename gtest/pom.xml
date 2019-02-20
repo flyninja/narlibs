@@ -6,7 +6,7 @@
   <groupId>com.googlecode.narlibs</groupId>
   <artifactId>gtest</artifactId>
   <packaging>nar</packaging>
-  <version>1.7.1</version>
+  <version>1.7.0</version>
 
   <description>Google Test NAR packaging</description>
   
