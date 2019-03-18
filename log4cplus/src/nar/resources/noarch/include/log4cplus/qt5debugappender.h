@@ -1,11 +1,11 @@
 // -*- C++ -*-
 // Module:  Log4cplus
-// File:    qt4debugappender.h
-// Created: 5/2012
+// File:    qt5debugappender.h
+// Created: 4/2013
 // Author:  Vaclav Zeman
 //
 //
-//  Copyright (C) 2012-2017, Vaclav Zeman. All rights reserved.
+//  Copyright (C) 2013-2017, Vaclav Zeman. All rights reserved.
 //
 //  Redistribution and use in source and binary forms, with or without modifica-
 //  tion, are permitted provided that the following conditions are met:
@@ -33,8 +33,8 @@
 
 /** @file */
 
-#ifndef LOG4CPLUS_QT4DEBUGAPPENDER_H
-#define LOG4CPLUS_QT4DEBUGAPPENDER_H
+#ifndef LOG4CPLUS_QT5DEBUGAPPENDER_H
+#define LOG4CPLUS_QT5DEBUGAPPENDER_H
 
 #include <log4cplus/config.hxx>
 
@@ -45,27 +45,27 @@
 #include <log4cplus/appender.h>
 
 #if defined (_WIN32)
-  #if defined (log4cplusqt4debugappender_EXPORTS) \
-      || defined (log4cplusqt4debugappenderU_EXPORTS) \
-      || (defined (DLL_EXPORT) && defined (INSIDE_LOG4CPLUS_QT4DEBUGAPPENDER))
-    #undef LOG4CPLUS_QT4DEBUGAPPENDER_BUILD_DLL
-    #define LOG4CPLUS_QT4DEBUGAPPENDER_BUILD_DLL
+  #if defined (log4cplusqt5debugappender_EXPORTS) \
+      || defined (log4cplusqt5debugappenderU_EXPORTS) \
+      || (defined (DLL_EXPORT) && defined (INSIDE_LOG4CPLUS_QT5DEBUGAPPENDER))
+    #undef LOG4CPLUS_QT5DEBUGAPPENDER_BUILD_DLL
+    #define LOG4CPLUS_QT5DEBUGAPPENDER_BUILD_DLL
   #endif
-  #if defined (LOG4CPLUS_QT4DEBUGAPPENDER_BUILD_DLL)
-    #if defined (INSIDE_LOG4CPLUS_QT4DEBUGAPPENDER)
-      #define LOG4CPLUS_QT4DEBUGAPPENDER_EXPORT __declspec(dllexport)
+  #if defined (LOG4CPLUS_QT5DEBUGAPPENDER_BUILD_DLL)
+    #if defined (INSIDE_LOG4CPLUS_QT5DEBUGAPPENDER)
+      #define LOG4CPLUS_QT5DEBUGAPPENDER_EXPORT __declspec(dllexport)
     #else
-      #define LOG4CPLUS_QT4DEBUGAPPENDER_EXPORT __declspec(dllimport)
+      #define LOG4CPLUS_QT5DEBUGAPPENDER_EXPORT __declspec(dllimport)
     #endif
   #else
-    #define LOG4CPLUS_QT4DEBUGAPPENDER_EXPORT
+    #define LOG4CPLUS_QT5DEBUGAPPENDER_EXPORT
   #endif
 #else
-  #if defined (INSIDE_LOG4CPLUS_QT4DEBUGAPPENDER)
-    #define LOG4CPLUS_QT4DEBUGAPPENDER_EXPORT LOG4CPLUS_DECLSPEC_EXPORT
+  #if defined (INSIDE_LOG4CPLUS_QT5DEBUGAPPENDER)
+    #define LOG4CPLUS_QT5DEBUGAPPENDER_EXPORT LOG4CPLUS_DECLSPEC_EXPORT
   #else
-    #define LOG4CPLUS_QT4DEBUGAPPENDER_EXPORT LOG4CPLUS_DECLSPEC_IMPORT
-  #endif // defined (INSIDE_LOG4CPLUS_QT4DEBUGAPPENDER)
+    #define LOG4CPLUS_QT5DEBUGAPPENDER_EXPORT LOG4CPLUS_DECLSPEC_IMPORT
+  #endif // defined (INSIDE_LOG4CPLUS_QT5DEBUGAPPENDER)
 #endif // !_WIN32
 
 
@@ -73,13 +73,13 @@ namespace log4cplus
 {
 
 
-class LOG4CPLUS_QT4DEBUGAPPENDER_EXPORT Qt4DebugAppender
+class LOG4CPLUS_QT5DEBUGAPPENDER_EXPORT Qt5DebugAppender
     : public Appender
 {
 public:
-    Qt4DebugAppender ();
-    explicit Qt4DebugAppender (helpers::Properties const &);
-    virtual ~Qt4DebugAppender ();
+    Qt5DebugAppender ();
+    explicit Qt5DebugAppender (helpers::Properties const &);
+    virtual ~Qt5DebugAppender ();
 
     virtual void close ();
 
@@ -89,15 +89,15 @@ protected:
     virtual void append (spi::InternalLoggingEvent const &);
 
 private:
-    Qt4DebugAppender (Qt4DebugAppender const &);
-    Qt4DebugAppender & operator = (Qt4DebugAppender const &);
+    Qt5DebugAppender (Qt5DebugAppender const &);
+    Qt5DebugAppender & operator = (Qt5DebugAppender const &);
 };
 
 
-typedef helpers::SharedObjectPtr<Qt4DebugAppender> Qt4DebugAppenderPtr;
+typedef helpers::SharedObjectPtr<Qt5DebugAppender> Qt5DebugAppenderPtr;
 
 
 } // namespace log4cplus
 
 
-#endif // LOG4CPLUS_QT4DEBUGAPPENDER_H
+#endif // LOG4CPLUS_QT5DEBUGAPPENDER_H

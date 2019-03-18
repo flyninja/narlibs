@@ -5,7 +5,7 @@
 // Author:  Tad E. Smith
 //
 //
-// Copyright 2003-2013 Tad E. Smith
+// Copyright 2003-2017 Tad E. Smith
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -43,7 +43,7 @@
 #define LOG4CPLUS_HAVE_TIME_H
 #define LOG4CPLUS_HAVE_SYS_TIMEB_H
 #define LOG4CPLUS_HAVE_FTIME
-#if defined (_MSC_VER) || defined (__BORLANDC__) 
+#if defined (_MSC_VER) || defined (__BORLANDC__)
 #define LOG4CPLUS_HAVE_GMTIME_S
 #endif
 
@@ -68,14 +68,19 @@
 #define LOG4CPLUS_HAVE_SYS_STAT_H
 #define LOG4CPLUS_HAVE_TIME_H
 #define LOG4CPLUS_HAVE_STDLIB_H
+#define LOG4CPLUS_HAVE_DIRECT_H
 
 // MSVC has both and so does MinGW.
 #define LOG4CPLUS_HAVE_VSNPRINTF
 #define LOG4CPLUS_HAVE__VSNPRINTF
 #define LOG4CPLUS_HAVE__VSNWPRINTF
 
-#if defined (_MSC_VER) \
-    || (defined (__MINGW64_VERSION_MAJOR) && __MINGW64_VERSION_MAJOR >= 3)
+// Limit the use of foo_s() functions to builds using Visual Studio
+// 2005 and its run time library. In MinGW land, limit the foo_s()
+// functions to MinGw-w64 toolchain and __MSVCRT_VERSION__ >= 0x0900.
+#if (defined (_MSC_VER) && _MSC_VER >= 1400)                         \
+    || (defined (__MSVCRT_VERSION__) && __MSVCRT_VERSION__ >= 0x0900 \
+        && defined (__MINGW64_VERSION_MAJOR) && __MINGW64_VERSION_MAJOR >= 2)
 // MS secure versions of vprintf().
 #  define LOG4CPLUS_HAVE_VSPRINTF_S
 #  define LOG4CPLUS_HAVE_VSWPRINTF_S
@@ -89,12 +94,18 @@
 #  define LOG4CPLUS_HAVE__VSNPRINTF_S
 #  define LOG4CPLUS_HAVE__VSNWPRINTF_S
 
+// MS secure version of _tsopen().
+#  define LOG4CPLUS_HAVE__TSOPEN_S
+#endif
+
+#if defined (_MSC_VER) && _MSC_VER >= 1400
 // MS printf-like functions supporting positional parameters.
 #  define LOG4CPLUS_HAVE__VSPRINTF_P
 #  define LOG4CPLUS_HAVE__VSWPRINTF_P
+#endif
 
-// MS secure version of _tsopen().
-#  define LOG4CPLUS_HAVE__TSOPEN_S
+#if defined (_MSC_VER)
+#  define LOG4CPLUS_HAVE_LOCALTIME_S
 #endif
 
 #define LOG4CPLUS_HAVE__TSOPEN
@@ -105,7 +116,7 @@
 // log4cplus_EXPORTS is used by the CMake build system.  DLL_EXPORT is
 // used by the autotools build system.
 #if (defined (log4cplus_EXPORTS) || defined (log4cplusU_EXPORTS) \
-     || defined (DLL_EXPORT))                                    \
+    || (defined (DLL_EXPORT) && defined (INSIDE_LOG4CPLUS)))     \
     && ! defined (LOG4CPLUS_STATIC)
 #  undef LOG4CPLUS_BUILD_DLL
 #  define LOG4CPLUS_BUILD_DLL
@@ -134,10 +145,6 @@
 #  define LOG4CPLUS_USE_WIN32_THREADS
 #endif
 
-#if defined (_WIN32_WINNT) && _WIN32_WINNT < 0x0600
-#  define LOG4CPLUS_POOR_MANS_SHAREDMUTEX
-#endif
-
 #if defined(_MSC_VER)
   // Warning about: identifier was truncated to '255' characters in the debug information
 #  pragma warning( disable : 4786 )
@@ -150,11 +157,7 @@
 #    define LOG4CPLUS_WORKING_LOCALE
 #    define LOG4CPLUS_HAVE_FUNCTION_MACRO
 #    define LOG4CPLUS_HAVE_FUNCSIG_MACRO
-#    define LOG4CPLUS_HAVE_C99_VARIADIC_MACROS
 #    define LOG4CPLUS_ATTRIBUTE_NORETURN __declspec(noreturn)
-#  endif
-#  if _MSC_VER >= 1700
-#    define LOG4CPLUS_HAVE_CXX11_ATOMICS
 #  endif
 #endif
 
@@ -164,22 +167,12 @@
 #    define LOG4CPLUS_HAVE_PRETTY_FUNCTION_MACRO
 #    define LOG4CPLUS_HAVE_FUNC_SYMBOL
 #  endif
-#  if __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 5)
-#    if defined (__GCC_HAVE_SYNC_COMPARE_AND_SWAP_4)
-#      define LOG4CPLUS_HAVE___SYNC_SUB_AND_FETCH
-#      define LOG4CPLUS_HAVE___SYNC_ADD_AND_FETCH
-#    endif
-#  endif
-#  if __GNUC__ > 4 || (__GNUC__ == 4 && __GNUC_MINOR__ >= 7)
-#    if defined (__GCC_HAVE_SYNC_COMPARE_AND_SWAP_4)
-#      define LOG4CPLUS_HAVE___ATOMIC_ADD_FETCH
-#      define LOG4CPLUS_HAVE___ATOMIC_SUB_FETCH
-#    endif
-#    define LOG4CPLUS_INLINES_ARE_EXPORTED
-#  endif
+// This has worked for some versions of MinGW with GCC 4.7+ but it
+// appears to be broken again in 4.8.x. Thus, we disable this for GCC
+// completely forever.
+//
+//#  define LOG4CPLUS_INLINES_ARE_EXPORTED
 #  define LOG4CPLUS_HAVE_FUNCTION_MACRO
-#  define LOG4CPLUS_HAVE_GNU_VARIADIC_MACROS
-#  define LOG4CPLUS_HAVE_C99_VARIADIC_MACROS
 #  if defined (__MINGW32__)
 #    define LOG4CPLUS_WORKING_C_LOCALE
 #  endif
@@ -187,7 +180,6 @@
 
 #if defined (__BORLANDC__) && __BORLANDC__ >= 0x0650
 #  define LOG4CPLUS_HAVE_FUNCTION_MACRO
-#  define LOG4CPLUS_HAVE_C99_VARIADIC_MACROS
 #endif // __BORLANDC__
 
 #if ! defined (LOG4CPLUS_DISABLE_DLL_RUNTIME_WARNING)

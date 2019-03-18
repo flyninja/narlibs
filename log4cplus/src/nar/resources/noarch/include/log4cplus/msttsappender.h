@@ -1,7 +1,7 @@
 // -*- C++ -*-
 // Module:  Log4cplus
-// File:    qt4debugappender.h
-// Created: 5/2012
+// File:    msttsappender.h
+// Created: 10/2012
 // Author:  Vaclav Zeman
 //
 //
@@ -33,8 +33,8 @@
 
 /** @file */
 
-#ifndef LOG4CPLUS_QT4DEBUGAPPENDER_H
-#define LOG4CPLUS_QT4DEBUGAPPENDER_H
+#ifndef LOG4CPLUS_MSTTSAPPENDER_H
+#define LOG4CPLUS_MSTTSAPPENDER_H
 
 #include <log4cplus/config.hxx>
 
@@ -44,28 +44,29 @@
 
 #include <log4cplus/appender.h>
 
+
 #if defined (_WIN32)
   #if defined (log4cplusqt4debugappender_EXPORTS) \
       || defined (log4cplusqt4debugappenderU_EXPORTS) \
-      || (defined (DLL_EXPORT) && defined (INSIDE_LOG4CPLUS_QT4DEBUGAPPENDER))
-    #undef LOG4CPLUS_QT4DEBUGAPPENDER_BUILD_DLL
-    #define LOG4CPLUS_QT4DEBUGAPPENDER_BUILD_DLL
+      || (defined (DLL_EXPORT) && defined (INSIDE_LOG4CPLUS_MSTTSAPPENDER))
+    #undef LOG4CPLUS_MSTTSAPPENDER_BUILD_DLL
+    #define LOG4CPLUS_MSTTSAPPENDER_BUILD_DLL
   #endif
-  #if defined (LOG4CPLUS_QT4DEBUGAPPENDER_BUILD_DLL)
-    #if defined (INSIDE_LOG4CPLUS_QT4DEBUGAPPENDER)
-      #define LOG4CPLUS_QT4DEBUGAPPENDER_EXPORT __declspec(dllexport)
+  #if defined (LOG4CPLUS_MSTTSAPPENDER_BUILD_DLL)
+    #if defined (INSIDE_LOG4CPLUS_MSTTSAPPENDER)
+      #define LOG4CPLUS_MSTTSAPPENDER_EXPORT __declspec(dllexport)
     #else
-      #define LOG4CPLUS_QT4DEBUGAPPENDER_EXPORT __declspec(dllimport)
+      #define LOG4CPLUS_MSTTSAPPENDER_EXPORT __declspec(dllimport)
     #endif
   #else
-    #define LOG4CPLUS_QT4DEBUGAPPENDER_EXPORT
+    #define LOG4CPLUS_MSTTSAPPENDER_EXPORT
   #endif
 #else
-  #if defined (INSIDE_LOG4CPLUS_QT4DEBUGAPPENDER)
-    #define LOG4CPLUS_QT4DEBUGAPPENDER_EXPORT LOG4CPLUS_DECLSPEC_EXPORT
+  #if defined (INSIDE_LOG4CPLUS_MSTTSAPPENDER)
+    #define LOG4CPLUS_MSTTSAPPENDER_EXPORT LOG4CPLUS_DECLSPEC_EXPORT
   #else
-    #define LOG4CPLUS_QT4DEBUGAPPENDER_EXPORT LOG4CPLUS_DECLSPEC_IMPORT
-  #endif // defined (INSIDE_LOG4CPLUS_QT4DEBUGAPPENDER)
+    #define LOG4CPLUS_MSTTSAPPENDER_EXPORT LOG4CPLUS_DECLSPEC_IMPORT
+  #endif // defined (INSIDE_LOG4CPLUS_MSTTSAPPENDER)
 #endif // !_WIN32
 
 
@@ -73,13 +74,13 @@ namespace log4cplus
 {
 
 
-class LOG4CPLUS_QT4DEBUGAPPENDER_EXPORT Qt4DebugAppender
+class LOG4CPLUS_MSTTSAPPENDER_EXPORT MSTTSAppender
     : public Appender
 {
 public:
-    Qt4DebugAppender ();
-    explicit Qt4DebugAppender (helpers::Properties const &);
-    virtual ~Qt4DebugAppender ();
+    MSTTSAppender ();
+    explicit MSTTSAppender (helpers::Properties const &);
+    virtual ~MSTTSAppender ();
 
     virtual void close ();
 
@@ -88,16 +89,24 @@ public:
 protected:
     virtual void append (spi::InternalLoggingEvent const &);
 
+    struct Data;
+
+    Data * data;
+
 private:
-    Qt4DebugAppender (Qt4DebugAppender const &);
-    Qt4DebugAppender & operator = (Qt4DebugAppender const &);
+    LOG4CPLUS_PRIVATE void init (long const * rate = 0,
+        unsigned long const * volume = 0, bool speak_punc = false,
+        bool async = false);
+
+    MSTTSAppender (MSTTSAppender const &);
+    MSTTSAppender & operator = (MSTTSAppender const &);
 };
 
 
-typedef helpers::SharedObjectPtr<Qt4DebugAppender> Qt4DebugAppenderPtr;
+typedef helpers::SharedObjectPtr<MSTTSAppender> MSTTSAppenderPtr;
 
 
 } // namespace log4cplus
 
 
-#endif // LOG4CPLUS_QT4DEBUGAPPENDER_H
+#endif // LOG4CPLUS_MSTTSAPPENDER_H
